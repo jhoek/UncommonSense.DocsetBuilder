@@ -41,4 +41,11 @@ function New-DashDocsetPList
     $XmlWriter.WriteEndDocument()
 
     $XmlWriter.Close()
+
+    # XmlTextWriter (and related classes) write square brackets for an empty doctype subset.
+    # Dash considers these invalid, so we'll remove them below. :(
+
+    $OldContent = Get-Content -Path $PListPath -Encoding utf8
+    $NewContent = $OldContent -replace '^\<!DOCTYPE (.*)\[\]\>$', '<!DOCTYPE $1>'
+    $NewContent | Set-Content -Path $PListPath -Encoding utf8
 }
