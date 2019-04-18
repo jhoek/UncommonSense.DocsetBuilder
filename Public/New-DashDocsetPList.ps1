@@ -15,7 +15,9 @@ function New-DashDocsetPList
         [string]$CFBundleName,
 
         [Parameter(Mandatory)]
-        [string]$DocSetPlatformFamily
+        [string]$DocSetPlatformFamily,
+
+        [string]$IndexFilePath
     )
 
     $PListPath = Join-Path -Path $DocsetPath -ChildPath Contents -AdditionalChildPath Info.plist
@@ -36,6 +38,11 @@ function New-DashDocsetPList
     $XmlWriter.WriteElementString('string', $DocSetPlatformFamily)
     $XmlWriter.WriteElementString('key', 'isDashDocset')
     $XmlWriter.WriteElementString('true', $null)
+    if ($IndexFilePath)
+    {
+        $XmlWriter.WriteElementString('key', 'dashIndexFilePath')
+        $XmlWriter.WriteElementString('string', $IndexFilePath)
+    }
     $XmlWriter.WriteEndElement() # dict
     $XmlWriter.WriteEndElement() # plist
     $XmlWriter.WriteEndDocument()
