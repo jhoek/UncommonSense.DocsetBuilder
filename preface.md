@@ -1,0 +1,2 @@
+## Requirements
+Requires sqlite3.
